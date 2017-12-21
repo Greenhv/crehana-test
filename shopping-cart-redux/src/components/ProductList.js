@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ProductItem from './ProductItem';
-import List from './List';
+import ProductItem from '../containers/ProductItem';
 
 const ProductList = ({ products }) => {
   return (
-    <List items={products} ListItemComponent={ProductItem} />
+    <ul className="columns is-multiline is-centered">
+      {products.map((item, i) => <ProductItem item={item} key={i} />)}
+    </ul>
   );
 };
 

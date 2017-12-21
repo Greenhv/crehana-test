@@ -26,33 +26,31 @@ let obj3 = {
   },
 };
 
-// Path Format : 'a.b.z.d, where a,b and d are keys of the Object and z belongs to the natural numbers
+let obj4 = {
+  a: {
+    d: 4,
+    b:{
+      c: {
+        z: 3,
+      },
+    },
+  },
+};
+
+// Object : Any object
+// Path Format : 'a.b.d', where a,b and d can be keys of the Object or might belong to the natural numbers 
 // DefaultValue: Any value
 
 let getIn = (object, path, defaultValue) => {
   // The object variable is an Object or an Array ?
 
-  let result = defaultValue;
   let splitPath = path.split('.');
-
-  if (splitPath.length < 1 && splitPath[0] !== "") return defaultValue;
-
   let currentKey = splitPath.splice(0,1)[0];
-  let objectKeyValidation = false;
 
-  if (Array.isArray(object)) {
-    objectKeyValidation = /^\+?(0|[1-9]\d*)$/.test(currentKey) && ~~currentKey >= 0 && ~~currentKey <= object.length - 1;
-  } else {
-    objectKeyValidation = object.hasOwnProperty(currentKey);
-  }
+  if (object === undefined) return defaultValue;
+  if (splitPath.length < 1 && currentKey === "") return object;
 
-  result = objectKeyValidation 
-            ? !((object[currentKey]) instanceof Object || (object[currentKey]) instanceof Array) 
-              ? object[currentKey] 
-              : getIn(object[currentKey], splitPath.join('.'), defaultValue)
-            : defaultValue;
+  let result = getIn(object[currentKey], splitPath.join('.'), defaultValue)
 
   return result;
 }
-
-

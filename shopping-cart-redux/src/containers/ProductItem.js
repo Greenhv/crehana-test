@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addToCart } from '../redux/modules/cart';
 
-const ProductItem = ({ item }) => {
+const onClickAddToCart = (addToCart, productId) => () => {
+  addToCart(productId, 1);
+}
+
+const ProductItem = ({ item, addToCart }) => {
   return (
     <li className="column is-one-fifth">
       <div className="card">
@@ -17,12 +23,11 @@ const ProductItem = ({ item }) => {
                <p className="subtitle is-7 has-text-centered">Price: ${item.price}</p>
             </div>
           </div>
-          <div className="select">
-            <select>
-              {[...Array(10).keys()].map(i => <option value={i+1} key={i}>{i+1}</option>)}
-            </select>
-          </div>
-          <button className="button">Add to Cart</button>
+          {
+            item.inventory > 0 
+            ? (<button className="button" onClick={onClickAddToCart(addToCart, item.id)}>Add to Cart</button>)
+            : (<button className="button" disabled>No Stock</button>)
+          }
         </div>
       </div>
     </li>
@@ -35,4 +40,4 @@ ProductItem.propTypes = {
   item: PropTypes.object,
 };
 
-export default ProductItem;
+export default connect(() => ({}), { addToCart })(ProductItem);

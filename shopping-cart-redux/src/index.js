@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './containers/Home';
 import Checkout from './containers/Checkout';
+import NavBar from './containers/NavBar';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { history, default as configureStore } from './redux/configureStore';
@@ -17,6 +18,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <div>
+        <NavBar />
         <Route exact path="/" component={Home} />
         <Route path="/check-out" component={Checkout} />
       </div>
